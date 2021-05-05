@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Project</h1>
+  <br /> 
+  <p>Project Goldman was inspired by JJ himself to help us fulfill our coding week project,
+     a tool to simplify the elaboration of a blind test for your parties.</p>
+  <img src="https://s.mxmcdn.net/images-storage/albums8/6/3/9/7/3/4/11437936_800_800.jpg" alt="JJG <3" height="450" width="470" onclick="play('JJG', this)">
+
+  <!-- Rajout d'un easter-egg-->
+  <audio id="JJG">
+    <source src="static/noise/jean-jacques-goldman-il-suffira-dun-signe-clip-officiel.wav" />
+    Votre navigateur n'est pas compatible
+  </audio>
+
+  <script>
+    function play(idPlayer, control) { // Fonction gérant le lecteur audio
+        var player = document.querySelector('#' + idPlayer);  // On récupère ici l'adresse du player
+
+        if (player.paused) {  // si le lecteur était sur pause, et qu'on a cliqué sur le bouton
+            player.play();  // on lance la musique
+        } else {  // sinon
+            player.pause();  // On arrête la musique
+        }
+    }
+  </script>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+      <h1>Project Goldman</h1>
+      <p class="lead"> Original blindtests </p>
+    </div>
+    <body> <br /> <br />
+
+    <!--<FONT color= "white" size="7" style="background:rgb(0,0,0);"> <strong>Play</strong> </FONT> -->
+
+    <br /> <br /> <br /> <br /> <br />
+    </body>
+    <a class="btn btn-dark" href="/auto_sel" role="button">Play auto selection</a>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <a class="btn btn-dark" href="/add_music" role="button"> Add music to database</a>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <a class="btn btn-dark" href="/manual_selection" role="button">Play manual selection</a>
+    
+    <footer>
+      
+      Application by <a href="https://www.centralesupelec.fr/" class="CentraleSupelec">CentraleSupelec</a> students
+    </footer>
+
+    <style type="text/css"> 
+body
+{
+  margin: 10px 0 ;
+  padding: 0 ;
+  text-align: center ;
+	background: url("http://www.pole-musiques.com/wp-content/uploads/2016/07/muusique-son-histoire-son-art.jpg") no-repeat left top ;
+  background-size : cover ;
+}
+a.Auto-selection {
+color: white;
+}
+a.Manual-selection {
+color: white;
+}
+a.CentraleSupelec {
+color :black;
+font-weight:bold 
+}
+footer
+{
+  padding: 0 ;
+  text-align: center ;
+  color :black;
+}
+    </style> 
+{% endblock %}

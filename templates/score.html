@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<body style="background-color:powderblue;"></body>
+  <h1>Your score :  {{user_score}}/{{max_score}}</h1>
+
+
+<h2>Détails</h2>
+{% for titre, auteur, user_answer in answers %}
+  <p>Votre réponse : {{user_answer}}</p>
+  <p>La musique était : {{titre}}, de {{auteur}}</p>
+  <br/>
+{% endfor %}
+<a class="btn btn-secondary btn-lg btn-block" href="/" role="button">Back Home</a>
+
+
+<footer>
+  Please consider to <a href="https://utip.io/" class="CentraleSupelec">support us</a>
+  <audio controls autoplay loop>
+    <source src="static/noise/jean-jacques-goldman-il-suffira-dun-signe-clip-officiel.wav" type="audio/wav">
+    Votre navigateur ne supporte pas l'élément <code>audio</code>.
+  </audio>
+</footer>
+
+{% endblock %}

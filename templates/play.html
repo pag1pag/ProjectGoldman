@@ -1,0 +1,183 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Let's play !</h1>
+<hr>
+
+{% if first_time %}
+    <!-- joue un petit son au début, seulement une fois-->
+    <audio autoplay>
+        <source src="static/noise/Here_we_go.wav">
+        Votre navigateur ne supporte pas l'élément <code>audio</code>.
+    </audio>
+{% endif %}
+
+<aside>
+    Chanson {{numero_music}} sur {{nb_music_to_play}}
+</aside>
+
+<figure>
+    <figcaption>Does this song brings back some memories ?</figcaption>
+</figure>
+
+<!-- Le lecteur de son, géré par HTML5 -->
+<audio id="audioPlayer" ontimeupdate="update(this)" src={{path_to_song|safe}}></audio>
+
+<!-- Deux boutons liés à ce lecteur -->
+<!-- Le premier bouton lance la fonction play lorsqu'on clique dessus, et affiche la répçnse si appuie sur la touche 'g' -->
+<button id="play" class="control" onclick="play('audioPlayer', this)" onkeydown="activate_godlike(event)"
+        onkeyup="desactivate_godlike(event)">Play</button>
+<button class="control" onclick="resume('audioPlayer')">Reset</button>
+
+<!-- Une barre de progression -->
+<div>
+    <div id="progressBarControl">
+        <div id="progressBar">Pas de lecture</div>
+    </div>
+</div>
+
+<!-- Un paragraphe pour afficher la réponse, qui ne s'affiche que si la touche 'g' est pressée  -->
+<div>
+    <p id="cheat_code"></p>
+</div>
+
+<!-- javascript, pour rendre la page interactive-->
+<script>
+    // Idée globale du script :
+    // - jouer la musique (laisser à l'utilisateur la possibilité de stop, play et reset)
+    // - afficher un formulaire (une fois la musique finie)
+    // - récupérer la réponse de l'utilisateur
+
+
+    // variables globales
+    var path_to_song = "{{path_to_song}}";  // chemin de la musique
+    var title = "{{title}}";  // nom de la musique
+    var author = "{{author}}";  // nom de l'auteur
+    var genre = "{{genre}}";
+    var hasFinished = false;  // L'extrait est en cours de lecture
+
+
+    function play(idPlayer, control) { // Fonction gérant le lecteur audio
+        var player = document.querySelector('#' + idPlayer);  // On récupère ici l'adresse du player
+
+        if (player.paused) {  // si le lecteur était sur pause, et qu'on a cliqué sur le bouton
+            player.play();  // on lance la musique
+            control.textContent = 'Pause';  // on change le texte du button sur 'pause'
+        } else {  // sinon
+            player.pause();  // On arrête la musique
+            control.textContent = 'Play';  // On change le texte du button sur 'jouer'
+        }
+    }
+
+    function resume(idPlayer) {  // Fonction reset
+        var player = document.querySelector('#' + idPlayer);
+        var playButton = document.querySelector('#play');
+
+        player.currentTime = 0;
+        player.pause();
+        playButton.textContent = 'Play';
+    }
+
+    function update(player) {
+        var duration = player.duration;    // Durée totale
+        var time     = player.currentTime; // Temps écoulé
+        var fraction = time / duration;
+        var percent  = Math.ceil(fraction * 100);
+
+        var progress = document.querySelector('#progressBar');  // On récupère l'adresse de la barre de progression
+
+        progress.style.width = percent + '%';  // On modifie la barre de progression (fichier .css)
+        progress.textContent = percent + '%';  // On modifie la barre de progression (le texte affiché)
+
+        if (hasFinished == false && percent == 100) {  // Si l'extrait est en cours de lecture, et qu'on atteint la fin
+            hasFinished = true; // Alors l'extrait est fini
+            print_form();  // On affiche le formulaire de réponse
+        }
+
+    }
+
+    function activate_godlike(event){ // Fonction pour afficher les réponses (il faut avoir le focus sur le bouton play)
+        var char = event.which || event.keyCode;
+        var answer = document.querySelector('#cheat_code');
+
+        if (char == 71 || char == KeyG) {  // Si la touche 'g' est pressée
+            answer.textContent = "titre : " + title + "\nAuteur : " + author;  // afficher la réponse
+        }
+    }
+
+    function desactivate_godlike(event){ // Si n'importe quelle touche retrouve sa position haute
+        var answer = document.querySelector('#cheat_code');
+        answer.textContent = "";
+    }
+
+    function print_form() {  //On affiche le formulaire de réponse
+        // On crée l'élément conteneur
+        var mainDiv = document.createElement('div');
+        mainDiv.id = 'user_answser';  // On lui rajoute l'attribut id, on rajoute à id la valeur 'user_answer'
+
+        // Création de la structure du formulaire
+        var form = document.createElement('form');
+        var fieldset = document.createElement('fieldset');
+        var legend = document.createElement('legend'),
+            legendText = document.createTextNode('Votre choix ?');
+        var center = document.createElement('div');
+
+        // Lorsqu'on cliquera sur le bouton envoyer, on est redirigé vers la page 'play'
+        form.action = "{{ url_for('play') }}";
+        form.method = 'post';
+
+        center.setAttribute('style', 'text-align: center');
+        legend.setAttribute('style', 'text-align: center');
+
+        legend.appendChild(legendText);
+
+        fieldset.appendChild(legend);
+        fieldset.appendChild(center);
+
+        form.appendChild(fieldset);
+
+        // Création des champs
+        //var label = document.createElement('label'),
+        //  labelText = document.createTextNode('Votre réponse : ');
+        var input = document.createElement('input');
+        var br = document.createElement('br');
+        var submit = document.createElement('input');
+
+        // Réponse de l'utilisateur
+        input.type = 'text';
+        input.name = "answer";
+        input.id = "answer";
+        input.placeholder = "genre : " + genre;
+
+        submit.type = 'submit';
+        submit.value = 'Envoyer';
+
+        //label.appendChild(labelText);
+
+        //center.appendChild(label);
+        center.appendChild(input);
+        center.appendChild(br);
+        center.appendChild(br.cloneNode(false)); // On clone, pour mettre un deuxième <br />
+        center.appendChild(submit);
+
+        // On insère le formulaire dans mainDiv
+        mainDiv.appendChild(form);
+
+        // On insère mainDiv dans le <body>
+        document.body.appendChild(mainDiv);
+    }
+</script>
+
+<style type="text/css">
+body
+{
+  margin: 10px 0 ;
+  padding: 0 ;
+  text-align: center ;
+	background: url("https://get.pxhere.com/photo/blur-blurry-classic-close-up-depth-of-field-focus-fretboard-guitar-instrument-musical-instrument-string-instrument-stringed-instrument-strings-wood-1509263.jpg") no-repeat left top ;
+  background-size : cover ;
+}
+</style>
+
+{% endblock %}
+

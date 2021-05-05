@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<br />
+<h1 id="titre"></h1>
+<br /> <br /> <br />
+
+<form method="post" action="/loading">
+  <input type="text" name="nb_music" id="nb_music" placeholder="nb max music">
+  <input type="submit" value="envoyer" onclick="print_title('test')">
+</form>
+
+<script>
+  function print_title(test) {
+    console.log(test);
+    var titre = document.getElementById("titre");
+    titre.textContent = "Chargement des musiques, veuillez patienter ...";
+
+  }
+</script>
+
+<style type="text/css">
+body
+{
+margin: 10px 0 ;
+padding: 0 ;
+color :aliceblue ;
+text-align: center ;
+background: url("http://www.slate.fr/sites/default/files/styles/1060x523/public/aron-visuals-322314-unsplash.jpg") no-repeat ;
+background-size: cover;
+}
+</style>
+
+<!-- quelques tests, mais infructifiant
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('a#test').bind('click', function() {
+            $.getJSON('/background_process_test,
+                {test: "gello"}, function(data) {}
+            });
+            return false;
+          });
+        });
+</script>
+
+button
+<div class='container'>
+    <h3>Test</h3>
+        <form>
+            <a href=# id=test><button class='btn btn-default'>Test</button></a>
+        </form>
+
+</div>
+
+<p>{{n}}</p>
+-->
+
+{% endblock %}

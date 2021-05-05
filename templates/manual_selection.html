@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1>Sélection manuelle</h1>
+<h3>Créez la playlist du blind test que vous voulez soumettre à vos amis en cochant simplement les cases correspondant aux musiques que vous voulez jouer !</h3>
+<hr>
+<form method="post" action="/manual_selection">
+  <a><input style="background: #1fa813;border: none;color: white;padding: 20px 384px;text-align: center;text-decoration: none;display: block;font-size: 20px;margin: auto;cursor: pointer;" class="button" type="submit" value="Start the game !"> </a>
+  <br/>
+  <table class="table table-striped">
+    <tr>
+      <th>Titre</th>
+      <th>Auteur</th>
+      <th>Genre</th>
+      <th></th>
+    </tr>
+    {% for music in musics %}
+      <tr>
+        <td>{{music.titre}}</td>
+        <td>{{music.auteur}}</td>
+        <td>{{music.genre}}</td>
+        <td><input type="checkbox" name="check" value={{music.id}}></td>
+        </tr>
+    {% endfor %}
+  </table>
+
+</form>
+
+{% endblock %}

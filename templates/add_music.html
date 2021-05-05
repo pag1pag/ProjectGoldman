@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <!-- un formulaire classique, comme utilisé la première semaine -->
+
+  <h1>Add a music to your data base</h1>
+  {% from "includes/_formhelpers.html" import render_field %}
+  <form method="POST" action="">
+    <div class="form-group">
+      {{ render_field(form.title, class_="form-control") }}
+    </div>
+
+    <div class="form-group">
+            {{ render_field(form.author, class_="form-control") }}
+    
+    <div class="form-group">
+            {{ render_field(form.genre, class_="form-control") }}
+    
+    <div class="form-group">
+            {{ render_field(form.url, class_="form-control") }}
+
+    <p><input class="btn btn-primary" type="submit" value="Ajouter">
+  </form>
+{% endblock %}

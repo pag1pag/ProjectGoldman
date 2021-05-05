@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<h1>Automatic selection</h1>
+<h3>Choose the tracks that you want to be part of your test!</h3>
+<hr>
+
+<form method="post" action="/auto_sel">     <!--début du formulaire, renvoie sur la page play_test quand on post une requête-->
+  <a><input style="background: #1fa813;border: none;color: white;padding: 20px 384px;text-align: center;text-decoration: none;display: block;font-size: 20px;margin: auto;cursor: pointer;" class="button" type="submit" value="Start the game !"> </a>
+  <br/>
+  <table class="table table-striped">
+    <tr>
+      <th>Genre</th>
+      <th>Select</th>
+    </tr>
+
+    {% for item in items %}       <!--on itère sur la liste des genres-->
+      <tr>
+        <td>{{item.genre}}</td>
+        <td><input type="checkbox" name="check" value={{item.id}}></td>
+      </tr>
+    {% endfor %}
+
+  </table>
+</form>
+
+{% endblock %}

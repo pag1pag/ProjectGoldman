@@ -1,0 +1,5 @@
+flask
+rfc3987
+wtforms
+pytube
+moviepy
